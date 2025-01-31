@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -16,20 +15,26 @@ import {
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import Link from "next/link";
+import { createAccount } from "@/lib/actions/user.action";
+import OPTModal from "./OPTModal";
 
 type FormType = "sign-in" | "sign-up";
 
 const authFormSchema = (formType: FormType) => {
   return z.object({
     email: z.string().email(),
-    fullName: formType === 'sign-up' ? z.string().min(2).max(50) : z.string().optional(),
-  })
-}
+    fullName:
+      formType === "sign-up"
+        ? z.string().min(2).max(50)
+        : z.string().optional(),
+  });
+};
 
-const AuthForm = ({ type }: {type: FormType}) => {
-  const [errorMessage, setErrorMessage] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
-  const formSchema = authFormSchema(type)
+const AuthForm = ({ type }: { type: FormType }) => {
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [accountId, setAccountId] = useState(null);
+  const formSchema = authFormSchema(type);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -40,7 +45,21 @@ const AuthForm = ({ type }: {type: FormType}) => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+    setIsLoading(true);
+    setErrorMessage("");
+
+    try {
+      const user = await createAccount({
+        fullName: values.fullName || "",
+        email: values.email,
+      });
+
+      setAccountId(user.accountId);
+    } catch {
+      setErrorMessage("Failed to create account. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -92,8 +111,12 @@ const AuthForm = ({ type }: {type: FormType}) => {
             )}
           />
 
-          <Button type="submit" className="form-submit-button" disabled={isLoading}>
-            {type === 'sign-in' ? "Sign In" : "Sign Up"}
+          <Button
+            type="submit"
+            className="form-submit-button"
+            disabled={isLoading}
+          >
+            {type === "sign-in" ? "Sign In" : "Sign Up"}
             {isLoading && (
               <Image
                 src="/icons/loader.svg"
@@ -105,23 +128,27 @@ const AuthForm = ({ type }: {type: FormType}) => {
             )}
           </Button>
 
-          {errorMessage  &&(
-            <p className="error-message">{errorMessage}</p>
-          )}
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
 
           <div className="body-2 flex justify-center">
             <p className="text-light-100">
-              {type === "sign-in" ? "Don't have an account?" : "Already have an account?"}
+              {type === "sign-in"
+                ? "Don't have an account?"
+                : "Already have an account?"}
             </p>
             <Link
-              href={type === 'sign-in' ? '/sign-up' : '/sign-in'}
+              href={type === "sign-in" ? "/sign-up" : "/sign-in"}
               className="ml-1 font-medium text-brand"
             >
-              {type === 'sign-in' ? "Sign Up" : "Sign In"}
+              {type === "sign-in" ? "Sign Up" : "Sign In"}
             </Link>
           </div>
         </form>
       </Form>
+
+      {accountId && (
+        <OPTModal email={form.getValues("email")} accountId={accountId} />
+      )}
     </>
   );
 };
