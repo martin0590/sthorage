@@ -20,9 +20,7 @@ const Layout = async ({ children }: { children: React.ReactNode}) => {
         <MobileNavigation {...currentUser} />
         <Header userId={currentUser.$id} accountId={currentUser.accountId} />
 
-        <div className="main-content">
-          {children}
-        </div>
+        <div className="main-content">{children}</div>
       </section>
 
       <Toaster />

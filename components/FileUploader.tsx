@@ -39,16 +39,21 @@ const FileUploader = ({ ownerId, accountId, className }: FileUploaderProps) => {
         })
       }
 
-      return uploadFile({ file, ownerId, accountId, path })
-      .then((uploadedFile) => {
-        if(uploadedFile) {
-          setFiles((prevFiles) => prevFiles.filter((f) => f.name !== file.name));
-        }
-      })
+      return uploadFile({ file, ownerId, accountId, path }).then(
+        (uploadedFile) => {
+          if (uploadedFile) {
+            setFiles((prevFiles) =>
+              prevFiles.filter((f) => f.name !== file.name),
+            );
+          }
+        },
+      );
+    });
 
-      await Promise.all(uploadPromises)
-    })
-  }, [ownerId, accountId, path]);
+    await Promise.all(uploadPromises);
+  },
+  [ownerId, accountId, path],
+);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   const handleRemoveFile = (
