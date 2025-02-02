@@ -1,18 +1,17 @@
-import Header from '@/components/Header'
-import MobileNavigation from '@/components/MobileNavigation'
-import Sidebar from '@/components/Sidebar'
-import { getCurrentUser } from '@/lib/actions/user.action'
-import { redirect } from 'next/navigation'
-import React from 'react'
-import { Toaster } from '@/components/ui/toaster'
+import Header from "@/components/Header";
+import MobileNavigation from "@/components/MobileNavigation";
+import Sidebar from "@/components/Sidebar";
+import { getCurrentUser } from "@/lib/actions/user.action";
+import { redirect } from "next/navigation";
+import React from "react";
+import { Toaster } from "@/components/ui/toaster";
 
-export const dynamic = 'force-dynamic'
+export const dynamic = "force-dynamic";
 
+const Layout = async ({ children }: { children: React.ReactNode }) => {
+  const currentUser = await getCurrentUser();
 
-const Layout = async ({ children }: { children: React.ReactNode}) => {
-  const currentUser = await getCurrentUser()
-
-  if(!currentUser) return redirect('/sign-in')
+  if (!currentUser) return redirect("/sign-in");
 
   return (
     <main className="flex h-screen">
@@ -27,7 +26,7 @@ const Layout = async ({ children }: { children: React.ReactNode}) => {
 
       <Toaster />
     </main>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

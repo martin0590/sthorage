@@ -1,18 +1,18 @@
-import Card from '@/components/Card'
-import Sort from '@/components/Sort'
-import { getFiles } from '@/lib/actions/file.actions'
-import { getFileTypesParams } from '@/lib/utils'
-import { Models } from 'node-appwrite'
-import React from 'react'
+import Card from "@/components/Card";
+import Sort from "@/components/Sort";
+import { getFiles } from "@/lib/actions/file.actions";
+import { getFileTypesParams } from "@/lib/utils";
+import { Models } from "node-appwrite";
+import React from "react";
 
 const Page = async ({ searchParams, params }: SearchParamProps) => {
-  const type = ((await params)?.type as string) || ''
-  const searchText = ((await searchParams)?.query as string) || ''
-  const sort = ((await searchParams)?.sort as string) || ''
+  const type = ((await params)?.type as string) || "";
+  const searchText = ((await searchParams)?.query as string) || "";
+  const sort = ((await searchParams)?.sort as string) || "";
 
-  const types = getFileTypesParams(type) as FileType[]
+  const types = getFileTypesParams(type) as FileType[];
 
-  const files = await getFiles({ types, searchText, sort })
+  const files = await getFiles({ types, searchText, sort });
 
   return (
     <div className="page-container">
@@ -21,7 +21,7 @@ const Page = async ({ searchParams, params }: SearchParamProps) => {
 
         <div className="total-size-section">
           <p className="body-1">
-            Total: <span className='h5'>0 MB</span>
+            Total: <span className="h5">0 MB</span>
           </p>
 
           <div className="sort-container">
@@ -34,15 +34,16 @@ const Page = async ({ searchParams, params }: SearchParamProps) => {
 
       {/* render files */}
       {files.total > 0 ? (
-        <section className='file-list'>
+        <section className="file-list">
           {files.documents.map((file: Models.Document) => (
             <Card key={file.$id} file={file} />
           ))}
         </section>
-      ) : <p className='empty-list'>No files uploaded</p> }
+      ) : (
+        <p className="empty-list">No files uploaded</p>
+      )}
     </div>
-    
-  )
-}
+  );
+};
 
-export default Page
+export default Page;

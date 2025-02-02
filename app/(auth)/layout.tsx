@@ -1,17 +1,17 @@
-import Image from 'next/image'
-import React from 'react'
+import Image from "next/image";
+import React from "react";
 
-const Layout = ({children}: { children: React.ReactNode}) => {
+const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className='flex min-h-screen'>
-      <section className='bg-brand p-10 hidden w-1/2 items-center justify-center lg:flex xl: xl:w-2/5'>
-        <div className='flex max-h-[800px] max-w-[430px] flex-col justify-center spece-y-12'>
+    <div className="flex min-h-screen">
+      <section className="bg-brand p-10 hidden w-1/2 items-center justify-center lg:flex xl: xl:w-2/5">
+        <div className="flex max-h-[800px] max-w-[430px] flex-col justify-center spece-y-12">
           <Image
             src="/images/thor_1.png"
             alt="logo icon"
             width={224}
             height={82}
-            className='h-auto'
+            className="h-auto"
           />
 
           <div className="space-y-5 text-white">
@@ -25,7 +25,7 @@ const Layout = ({children}: { children: React.ReactNode}) => {
             alt="Files"
             width={342}
             height={342}
-            className='transition-all hover:rotate-2 hover:scale-105'
+            className="transition-all hover:rotate-2 hover:scale-105"
           />
         </div>
       </section>
@@ -36,13 +36,13 @@ const Layout = ({children}: { children: React.ReactNode}) => {
             alt="logo icon"
             width={224}
             height={82}
-            className='h-auto w-[200px] lg:w-[250px]'
+            className="h-auto w-[200px] lg:w-[250px]"
           />
         </div>
         {children}
       </section>
     </div>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

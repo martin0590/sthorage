@@ -3,8 +3,6 @@ import React, { useState } from "react";
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
-  SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
@@ -24,7 +22,6 @@ type MobileNavigationProps = {
   fullName: string;
   avatar: string;
   email: string;
-  
 };
 
 const MobileNavigation = ({
@@ -105,15 +102,19 @@ const MobileNavigation = ({
 
           <div className="flex flex-col justify-between gap-5 pb-5">
             <FileUploader ownerId={ownerId} accountId={accountId} />
-            <Button onClick={async () => await signOutUser()} type='submit' className='mobile-sign-out-button'>
-            <Image
-              src="/icons/logout.svg"
-              alt="Logout button icon"
-              width={24}
-              height={24}
-            />
-            <p>Logout</p>
-          </Button>
+            <Button
+              onClick={async () => await signOutUser()}
+              type="submit"
+              className="mobile-sign-out-button"
+            >
+              <Image
+                src="/icons/logout.svg"
+                alt="Logout button icon"
+                width={24}
+                height={24}
+              />
+              <p>Logout</p>
+            </Button>
           </div>
         </SheetContent>
       </Sheet>
